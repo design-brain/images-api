@@ -67,10 +67,10 @@ func Svc() *Service {
 
 // Fetch fetches...
 func (s *Service) Fetch(ctx context.Context, i *ipb.Image) (*ipb.Image, error) {
-	return nil, nil
+	return i, nil
 }
 
 // Upload uploads...
 func (s *Service) Upload(ctx context.Context, i *ipb.Image) (*ipb.Image, error) {
-	return nil, nil
+	return i, nil
 }

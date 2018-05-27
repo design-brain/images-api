@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"google.golang.org/grpc"
+
 	log "github.com/sirupsen/logrus"
 
 	"github.com/austinjalexander/pkg/db"
@@ -35,10 +37,10 @@ func init() {
 	// Initialize database interface configuration.
 	db.Init()
 
-	// Initialize non-Twirp handlers.
+	// Initialize non-gRPC handlers.
 	healthcheck.Init()
 
-	// Initialize Twirp services.
+	// Initialize gRPC services.
 	images.Init()
 
 	// Initialize server configuration.
@@ -49,10 +51,11 @@ func main() {
 	// Configure routes.
 	mux := http.NewServeMux()
 
-	// Non-Twirp routes.
+	// Non-gRPC routes.
 	mux.Handle(healthcheck.Path(), healthcheck.Handler(time.Now().UTC()))
 
-	// Twirp routes.
+	// gRPC routes.
+	gs := grpc.NewServer()
 	mux.Handle(ipb.ManagePathPrefix, ipb.NewManageServer(images.Svc(), nil))
 
 	// Run server.

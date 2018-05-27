@@ -25,7 +25,7 @@ docker-lint:
 	docker run $(SERVICE_NAME)-lint
 
 gen:
-	retool do protoc --proto_path=. --twirp_out=$(GOPATH)/src --go_out=$(GOPATH)/src ./rpc/images/images.proto
+	retool do protoc --proto_path=. --go_out=plugins=grpc:$(GOPATH)/src ./rpc/images/images.proto
 
 install:
 	go install -v ./...

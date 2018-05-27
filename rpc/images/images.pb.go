@@ -16,6 +16,11 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -45,6 +50,175 @@ func (m *Image) GetB() []byte {
 
 func init() {
 	proto.RegisterType((*Image)(nil), "images.Image")
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for Manage service
+
+type ManageClient interface {
+	Fetch(ctx context.Context, opts ...grpc.CallOption) (Manage_FetchClient, error)
+	Upload(ctx context.Context, opts ...grpc.CallOption) (Manage_UploadClient, error)
+}
+
+type manageClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewManageClient(cc *grpc.ClientConn) ManageClient {
+	return &manageClient{cc}
+}
+
+func (c *manageClient) Fetch(ctx context.Context, opts ...grpc.CallOption) (Manage_FetchClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Manage_serviceDesc.Streams[0], c.cc, "/images.Manage/Fetch", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &manageFetchClient{stream}
+	return x, nil
+}
+
+type Manage_FetchClient interface {
+	Send(*Image) error
+	Recv() (*Image, error)
+	grpc.ClientStream
+}
+
+type manageFetchClient struct {
+	grpc.ClientStream
+}
+
+func (x *manageFetchClient) Send(m *Image) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *manageFetchClient) Recv() (*Image, error) {
+	m := new(Image)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *manageClient) Upload(ctx context.Context, opts ...grpc.CallOption) (Manage_UploadClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Manage_serviceDesc.Streams[1], c.cc, "/images.Manage/Upload", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &manageUploadClient{stream}
+	return x, nil
+}
+
+type Manage_UploadClient interface {
+	Send(*Image) error
+	Recv() (*Image, error)
+	grpc.ClientStream
+}
+
+type manageUploadClient struct {
+	grpc.ClientStream
+}
+
+func (x *manageUploadClient) Send(m *Image) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *manageUploadClient) Recv() (*Image, error) {
+	m := new(Image)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// Server API for Manage service
+
+type ManageServer interface {
+	Fetch(Manage_FetchServer) error
+	Upload(Manage_UploadServer) error
+}
+
+func RegisterManageServer(s *grpc.Server, srv ManageServer) {
+	s.RegisterService(&_Manage_serviceDesc, srv)
+}
+
+func _Manage_Fetch_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ManageServer).Fetch(&manageFetchServer{stream})
+}
+
+type Manage_FetchServer interface {
+	Send(*Image) error
+	Recv() (*Image, error)
+	grpc.ServerStream
+}
+
+type manageFetchServer struct {
+	grpc.ServerStream
+}
+
+func (x *manageFetchServer) Send(m *Image) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *manageFetchServer) Recv() (*Image, error) {
+	m := new(Image)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _Manage_Upload_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ManageServer).Upload(&manageUploadServer{stream})
+}
+
+type Manage_UploadServer interface {
+	Send(*Image) error
+	Recv() (*Image, error)
+	grpc.ServerStream
+}
+
+type manageUploadServer struct {
+	grpc.ServerStream
+}
+
+func (x *manageUploadServer) Send(m *Image) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *manageUploadServer) Recv() (*Image, error) {
+	m := new(Image)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+var _Manage_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "images.Manage",
+	HandlerType: (*ManageServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Fetch",
+			Handler:       _Manage_Fetch_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "Upload",
+			Handler:       _Manage_Upload_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "rpc/images/images.proto",
 }
 
 func init() { proto.RegisterFile("rpc/images/images.proto", fileDescriptor0) }
