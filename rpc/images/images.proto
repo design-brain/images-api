@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package images;
+option go_package = "github.com/design-brain/images-api/rpc/images";
+
+service Manage {
+  rpc Fetch(stream Image) returns (stream Image);
+  rpc Upload(stream Image) returns (stream Image);
+}
+
+message Image {
+  bytes b = 1;
+}

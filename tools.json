@@ -1,0 +1,21 @@
+{
+  "Tools": [
+    {
+      "Repository": "github.com/golang/protobuf/protoc-gen-go",
+      "Commit": "e09c5db296004fbe3f74490e84dcd62c3c5ddb1b"
+    },
+    {
+      "Repository": "github.com/twitchtv/twirp/protoc-gen-twirp",
+      "Commit": "55115e8dbc470a9cdb90ffca01c03df835768ee4"
+    },
+    {
+      "Repository": "github.com/rubenv/sql-migrate",
+      "Commit": "081fe17d19ff4e2dd9f5a0c1158e6bcf74da6906"
+    },
+    {
+      "Repository": "golang.org/x/vgo",
+      "Commit": "7c0cf33f39ccf5d8e4c59d34a150425ddac7df6a"
+    }
+  ],
+  "RetoolVersion": "1.3.5"
+}

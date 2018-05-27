@@ -1,0 +1,48 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+    depends_on:
+      - cache
+      - db
+    env_file:
+      - .env
+    environment:
+      - CACHE_HOST=cache
+      - CACHE_PORT=6379
+      - DB_HOST=db
+      - DB_NAME=imagesapidbname
+      - DB_PASS=secret
+      - DB_PORT=5432
+      - DB_USER=imagesapidbuser
+      - DB_SSL_ENABLED=false
+      - DB_MAX_IDLE_CONNS=25
+      - DB_MAX_OPEN_CONNS=100
+      - DB_MIGRATIONS_DIR=./_migrations
+      - DB_MIGRATIONS_RUN=true
+      - DB_MIGRATIONS_TABLE=migrations
+      - ENVIRONMENT=development
+      - HEALTHCHECK_PATH=/healthcheck
+      - LOG_LEVEL=warn
+      - SERVER_PORT=8080
+      - SERVER_TIMEOUT=20s
+      - SERVICE_NAME=images-api
+    ports:
+      - "8080:8080"
+
+  cache:
+    image: redis:3.2
+    ports:
+      - "6379:6379"
+
+  db:
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=imagesapidbname
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=imagesapidbuser
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
